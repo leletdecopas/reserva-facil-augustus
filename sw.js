@@ -1,6 +1,6 @@
 "use strict";
 
-var CACHE = "reserva-facil-v1";
+var CACHE = "reserva-facil-v2";
 var ASSETS = [
   "./",
   "./index.html",
