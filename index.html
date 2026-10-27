@@ -141,6 +141,41 @@ main{max-width:1100px;margin:0 auto;padding:22px 16px 8px}
   font-size:.78rem;font-weight:600;color:var(--texto-sec);padding:4px 0 8px;
 }
 .home-offline svg{width:16px;height:16px;flex:none;color:var(--cinza-claro)}
+body.home-mode .app-nav{display:none}
+body.home-mode{padding-bottom:28px}
+.home-admin-link{
+  display:block;margin:10px auto 0;font-size:.75rem;font-weight:700;
+  color:var(--cinza-claro);text-decoration:underline;padding:8px 12px;
+}
+.home-admin-link:hover{color:var(--cinza-escuro)}
+
+/* ---------- Área do Responsável ---------- */
+.admin-wrap{max-width:900px;margin:0 auto}
+.admin-gate{max-width:380px;margin:0 auto}
+.admin-stats{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);margin-bottom:18px}
+.admin-stat{
+  background:var(--card);border:1px solid var(--borda);border-radius:var(--radius-sm);
+  padding:14px 16px;box-shadow:var(--shadow);text-align:center;
+}
+.admin-stat b{display:block;font-size:1.5rem;font-weight:800}
+.admin-stat span{font-size:.75rem;font-weight:700;color:var(--texto-sec)}
+.admin-list{display:grid;gap:10px;margin-bottom:18px}
+.admin-item{
+  background:var(--card);border:1px solid var(--borda);border-radius:var(--radius-sm);
+  padding:14px 16px;box-shadow:var(--shadow);font-size:.86rem;
+}
+.admin-item-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:6px}
+.admin-item b{font-weight:800}
+.admin-item .meta{color:var(--texto-sec);font-size:.78rem;margin-top:4px;overflow-wrap:anywhere}
+.admin-item .coment{margin-top:8px;padding-top:8px;border-top:1px dashed var(--borda);color:var(--cinza-escuro)}
+.admin-stars{color:var(--dourado-2);font-weight:800;letter-spacing:1px}
+.admin-section-title{
+  font-size:.78rem;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--cinza-escuro);font-weight:800;margin:22px 0 10px;
+}
+@media(min-width:768px){
+  .admin-stats{grid-template-columns:repeat(4,1fr)}
+}
 
 /* ---------- Cards ---------- */
 .card{
@@ -240,6 +275,59 @@ main{max-width:1100px;margin:0 auto;padding:22px 16px 8px}
 .mini-resumo dl{display:grid;grid-template-columns:auto 1fr;gap:5px 12px}
 .mini-resumo dt{color:var(--texto-sec);font-weight:600}
 .mini-resumo dd{font-weight:700;text-align:right;overflow-wrap:anywhere}
+
+/* ---------- Disponibilidade (linha do tempo) ---------- */
+.dispo-box{
+  margin-top:18px;background:var(--card);border:1px solid var(--borda);
+  border-radius:var(--radius-sm);padding:16px;box-shadow:var(--shadow);
+}
+.dispo-head h3{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--cinza-escuro);margin-bottom:3px}
+.dispo-head .hint{margin-bottom:12px}
+.dispo-row{margin-bottom:12px}
+.dispo-label{
+  display:block;font-size:.78rem;font-weight:800;color:var(--cinza-escuro);
+  margin-bottom:5px;overflow-wrap:anywhere;
+}
+.dispo-bar{
+  position:relative;height:34px;border-radius:9px;overflow:hidden;
+  background:linear-gradient(180deg,#FFF9E0,#FFF2B8);border:1px solid var(--dourado-soft);
+}
+.dispo-block{
+  position:absolute;top:0;bottom:0;
+  background:repeating-linear-gradient(135deg,#595959 0 7px,#6B6B6B 7px 14px);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  font-size:.66rem;font-weight:800;color:#fff;white-space:nowrap;
+  border-top:2px solid var(--preto);
+}
+.dispo-free{
+  position:absolute;top:0;bottom:0;background:none;border:none;padding:0;
+  cursor:pointer;z-index:1;
+}
+.dispo-free:hover,.dispo-free:active{background:rgba(255,215,0,.55)}
+.dispo-free:focus-visible{outline:3px solid var(--dourado-2);outline-offset:-3px}
+.dispo-scale{
+  position:relative;height:16px;margin:-4px 0 8px;
+  font-size:.62rem;font-weight:700;color:var(--texto-sec);
+}
+.dispo-scale span{position:absolute;transform:translateX(-50%);top:0}
+.dispo-legend{
+  display:flex;gap:16px;flex-wrap:wrap;font-size:.7rem;font-weight:700;color:var(--texto-sec);
+}
+.dispo-legend span{display:inline-flex;align-items:center;gap:6px}
+.dispo-key{width:14px;height:10px;border-radius:3px;display:inline-block}
+.dispo-key.busy{background:repeating-linear-gradient(135deg,#595959 0 4px,#6B6B6B 4px 8px)}
+.dispo-key.free{background:#FFF2B8;border:1px solid var(--dourado-soft)}
+.dispo-empty{font-size:.8rem;color:var(--texto-sec);font-style:italic;padding:4px 0 2px}
+
+/* ---------- Caixa de conflito ---------- */
+.conflict-box{
+  display:flex;gap:12px;align-items:flex-start;text-align:left;
+  background:var(--erro-soft);border:1.5px solid rgba(179,38,30,.3);
+  border-radius:var(--radius-sm);padding:15px 16px;margin-top:18px;
+  color:var(--erro);animation:fadeUp .3s ease;
+}
+.conflict-box svg{width:22px;height:22px;flex:none;margin-top:1px}
+.conflict-box p{font-size:.88rem;font-weight:700;line-height:1.45}
 
 /* ---------- Buttons ---------- */
 .wizard-actions{display:flex;gap:12px;margin-top:22px}
@@ -492,6 +580,7 @@ textarea.input:focus{outline:none;border-color:var(--dourado-2);box-shadow:0 0 0
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h.01"/><path d="M8.5 16.4a5 5 0 0 1 7 0"/><path d="M5 12.9a10 10 0 0 1 14 0"/><path d="m2 2 20 20"/></svg>
       Funciona offline depois da primeira visita
     </p>
+    <button type="button" class="home-admin-link" data-go="admin">Área do Responsável</button>
   </section>
 
   <!-- ============ TELA: NOVO AGENDAMENTO ============ -->
@@ -629,6 +718,26 @@ textarea.input:focus{outline:none;border-color:var(--dourado-2);box-shadow:0 0 0
               </div>
               <p class="hint">Selecione quantos precisar — pode escolher mais de um.</p>
             </div>
+          </div>
+
+          <!-- Linha do tempo: disponibilidade do dia -->
+          <div class="dispo-box" id="dispoBox" hidden>
+            <div class="dispo-head">
+              <h3>Disponibilidade <span id="dispoData"></span></h3>
+              <p class="hint">Toque numa faixa clara para usar aquele horário.</p>
+            </div>
+            <div id="dispoRows" aria-live="polite"></div>
+            <div class="dispo-scale" id="dispoScale"></div>
+            <div class="dispo-legend">
+              <span><i class="dispo-key busy"></i> Ocupado</span>
+              <span><i class="dispo-key free"></i> Livre (toque para preencher)</span>
+            </div>
+          </div>
+
+          <!-- Mensagem de conflito persistente -->
+          <div class="conflict-box" id="conflictBox" role="alert" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <p id="conflictMsg"></p>
           </div>
 
           <div class="mini-resumo" aria-live="polite">
@@ -771,6 +880,52 @@ textarea.input:focus{outline:none;border-color:var(--dourado-2);box-shadow:0 0 0
       </div>
     </div>
   </section>
+
+  <!-- ============ TELA: ÁREA DO RESPONSÁVEL ============ -->
+  <section class="screen" id="tela-admin" aria-labelledby="titulo-admin" tabindex="-1">
+    <div class="admin-wrap">
+      <div class="screen-head">
+        <h1 class="screen-title" id="titulo-admin">Área do Responsável</h1>
+        <p class="screen-sub">Acompanhe as reservas e as avaliações de todos os usuários.</p>
+      </div>
+
+      <div class="admin-gate" id="adminGate">
+        <form class="card" id="formAdmin">
+          <div class="field" id="field-admin-senha">
+            <label for="admin-senha">Senha de acesso</label>
+            <div class="input-wrap no-icon">
+              <input type="password" id="admin-senha" placeholder="Digite a senha" autocomplete="current-password" required>
+            </div>
+            <p class="field-error" id="err-admin-senha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg><span></span></p>
+          </div>
+          <div class="wizard-actions">
+            <button type="button" class="btn btn-ghost" data-go="inicio">Voltar</button>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="adminPainel" hidden>
+        <div class="admin-stats">
+          <div class="admin-stat"><b id="ad-total">—</b><span>Reservas</span></div>
+          <div class="admin-stat"><b id="ad-confirmadas">—</b><span>Confirmadas</span></div>
+          <div class="admin-stat"><b id="ad-avaliacoes">—</b><span>Avaliações</span></div>
+          <div class="admin-stat"><b id="ad-media">—</b><span>Média (estrelas)</span></div>
+        </div>
+        <div class="wizard-actions" style="margin-top:0;margin-bottom:6px">
+          <button type="button" class="btn btn-ghost" id="btnAdminSair">Sair</button>
+          <button type="button" class="btn btn-primary" id="btnAdminAtualizar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg>
+            Atualizar
+          </button>
+        </div>
+        <h2 class="admin-section-title">Reservas</h2>
+        <div class="admin-list" id="adminReservas"></div>
+        <h2 class="admin-section-title">Avaliações</h2>
+        <div class="admin-list" id="adminAvaliacoes"></div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <!-- Modal de cancelamento -->
@@ -793,6 +948,7 @@ textarea.input:focus{outline:none;border-color:var(--dourado-2);box-shadow:0 0 0
 
 <div id="confetti" aria-hidden="true"></div>
 
+<script src="config.js"></script>
 <script>
 (function(){
 "use strict";
@@ -839,6 +995,22 @@ function save(key, arr){
   try{ localStorage.setItem(key, JSON.stringify(arr)); }catch(e){}
 }
 
+/* ---------- API (nuvem - Google Sheets) ---------- */
+var API_URL = (window.APP_CONFIG && window.APP_CONFIG.API_URL) || "";
+
+function apiCall(payload){
+  return fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  }).then(function(res){ return res.json(); });
+}
+
+function salvarLocal(reserva){
+  var reservas = load(KEY_RESERVAS);
+  reservas.push(reserva);
+  save(KEY_RESERVAS, reservas);
+}
+
 function showToast(msg){
   var t = $("#toast");
   $("#toastMsg").textContent = msg;
@@ -855,6 +1027,9 @@ function showScreen(id){
     if(b.dataset.screen === navKey){ b.setAttribute("aria-current", "page"); }
     else{ b.removeAttribute("aria-current"); }
   });
+  // Na tela Início os cartões já são os atalhos: sem barra inferior
+  document.body.classList.toggle("home-mode", id === "tela-inicio");
+  if(id === "tela-admin") carregarAdmin();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -920,7 +1095,7 @@ function goToStep(n, noScroll){
     var num = $(".steps-num", li);
     num.textContent = st < n ? "✓" : String(st);
   });
-  if(n === 3) updateMiniResumo();
+  if(n === 3){ updateMiniResumo(); carregarDispo(); }
   if(noScroll) return;
   var card = $("#formReserva");
   if(card){
@@ -1020,8 +1195,162 @@ function updateMiniResumo(){
   $("#mr-equip").textContent = equip.length ? equip.join(", ") : "Nenhum";
 }
 
-$("#formReserva").addEventListener("input", function(){ if(currentStep === 3) updateMiniResumo(); });
-$("#formReserva").addEventListener("change", function(){ if(currentStep === 3) updateMiniResumo(); });
+$("#formReserva").addEventListener("input", function(){
+  if(currentStep === 3){ updateMiniResumo(); redesenharDispo(); esconderConflito(); }
+});
+$("#formReserva").addEventListener("change", function(){
+  if(currentStep === 3){ updateMiniResumo(); redesenharDispo(); esconderConflito(); }
+});
+
+/* ---------- Disponibilidade (linha do tempo) ---------- */
+var DISPO_INI = 7 * 60;   // 07:00
+var DISPO_FIM = 22 * 60;  // 22:00
+var DISPO_SPAN = DISPO_FIM - DISPO_INI;
+var dispoCache = {}; // data -> [{inicio,fim,espaco,equipamentos}]
+
+function hmParaMin(hhmm){
+  var p = String(hhmm || "").split(":");
+  return Number(p[0]) * 60 + Number(p[1] || 0);
+}
+function minParaHm(m){
+  var h = Math.floor(m / 60), mm = m % 60;
+  return (h < 10 ? "0" : "") + h + ":" + (mm < 10 ? "0" : "") + mm;
+}
+function pct(m){ return ((m - DISPO_INI) / DISPO_SPAN) * 100; }
+
+function esconderConflito(){ $("#conflictBox").hidden = true; }
+function mostrarConflito(msg){
+  $("#conflictMsg").textContent = msg;
+  $("#conflictBox").hidden = false;
+  $("#conflictBox").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function recursosSelecionados(){
+  var recs = [];
+  var espaco = $("#espaco").value;
+  if(espaco && espaco.indexOf("Nenhum") !== 0){
+    recs.push({ tipo: "espaco", nome: espaco, rotulo: espaco });
+  }
+  getEquipamentosSelecionados().forEach(function(e){
+    recs.push({ tipo: "equip", nome: e, rotulo: e });
+  });
+  return recs;
+}
+
+function intervalosDoRecurso(rec, reservas){
+  var out = [];
+  reservas.forEach(function(r){
+    if(rec.tipo === "espaco" && r.espaco === rec.nome){
+      out.push([hmParaMin(r.inicio), hmParaMin(r.fim), r.inicio + "–" + r.fim]);
+    }else if(rec.tipo === "equip" && (r.equipamentos || []).indexOf(rec.nome) !== -1){
+      out.push([hmParaMin(r.inicio), hmParaMin(r.fim), r.inicio + "–" + r.fim]);
+    }
+  });
+  return out;
+}
+
+function desenharDispo(data, reservas){
+  $("#dispoBox").hidden = false;
+  $("#dispoData").textContent = fmtDataBR(data);
+
+  var recs = recursosSelecionados();
+  var rows = $("#dispoRows");
+  if(!recs.length){
+    rows.innerHTML = '<p class="dispo-empty">Selecione o espaço (ou equipamentos) para ver as janelas.</p>';
+    desenharEscala();
+    return;
+  }
+
+  var html = "";
+  recs.forEach(function(rec){
+    var intervalos = intervalosDoRecurso(rec, reservas);
+    // blocos + intervalos livres
+    var blocos = "", livres = "";
+    var cursor = DISPO_INI;
+    intervalos.sort(function(a, b){ return a[0] - b[0]; }).forEach(function(iv){
+      var s = Math.max(DISPO_INI, iv[0]), f = Math.min(DISPO_FIM, iv[1]);
+      if(f <= DISPO_INI || s >= DISPO_FIM || f <= s) return;
+      if(s > cursor){
+        livres += '<button type="button" class="dispo-free" data-s="' + cursor + '" data-f="' + s +
+          '" aria-label="Usar horário ' + minParaHm(cursor) + ' às ' + minParaHm(s) + '" style="left:' + pct(cursor) + '%;width:' + (pct(s) - pct(cursor)) + '%"></button>';
+      }
+      blocos += '<div class="dispo-block" style="left:' + pct(s) + '%;width:' + (pct(f) - pct(s)) + '%">' + esc(iv[2]) + '</div>';
+      if(f > cursor) cursor = f;
+    });
+    if(cursor < DISPO_FIM){
+      livres += '<button type="button" class="dispo-free" data-s="' + cursor + '" data-f="' + DISPO_FIM +
+        '" aria-label="Usar horário ' + minParaHm(cursor) + ' às ' + minParaHm(DISPO_FIM) + '" style="left:' + pct(cursor) + '%;width:' + (pct(DISPO_FIM) - pct(cursor)) + '%"></button>';
+    }
+
+    var vazio = intervalos.length ? "" : '<span class="dispo-empty" style="position:absolute;left:8px;top:9px;z-index:0">livre o dia todo</span>';
+    html += '<div class="dispo-row">' +
+      '<span class="dispo-label">' + esc(rec.rotulo) + '</span>' +
+      '<div class="dispo-bar">' + vazio + blocos + livres + '</div>' +
+    '</div>';
+  });
+  rows.innerHTML = html;
+  desenharEscala();
+}
+
+function desenharEscala(){
+  var marcas = [7, 10, 13, 16, 19, 22];
+  var html = "";
+  marcas.forEach(function(h){ html += '<span style="left:' + pct(h * 60) + '%">' + (h < 10 ? "0" : "") + h + 'h</span>'; });
+  $("#dispoScale").innerHTML = html;
+}
+
+function redesenharDispo(){
+  var data = $("#data").value;
+  if(!API_URL || !data || !dispoCache[data]) return;
+  if(currentStep !== 3) return;
+  desenharDispo(data, dispoCache[data]);
+}
+
+function carregarDispo(){
+  var data = $("#data").value;
+  var box = $("#dispoBox");
+  if(!API_URL || !data){ box.hidden = true; return; }
+  if(dispoCache[data]){
+    if(currentStep === 3) desenharDispo(data, dispoCache[data]);
+    return;
+  }
+  if(currentStep !== 3) return;
+  box.hidden = false;
+  $("#dispoData").textContent = fmtDataBR(data);
+  $("#dispoRows").innerHTML = '<p class="dispo-empty">Carregando horários...</p>';
+  $("#dispoScale").innerHTML = "";
+  apiCall({ action: "consultar_dia", data: data })
+    .then(function(res){
+      if(!res.ok) throw new Error(res.erro || "Falha ao consultar.");
+      dispoCache[data] = res.reservas || [];
+      if(currentStep === 3 && $("#data").value === data) desenharDispo(data, dispoCache[data]);
+    })
+    .catch(function(){
+      if(currentStep === 3 && $("#data").value === data){
+        $("#dispoRows").innerHTML = '<p class="dispo-empty">Não foi possível carregar a disponibilidade.</p>';
+      }
+    });
+}
+
+/* Tocar numa janela livre preenche início/fim */
+$("#dispoRows").addEventListener("click", function(e){
+  var b = e.target.closest(".dispo-free");
+  if(!b) return;
+  var s = Number(b.dataset.s), f = Number(b.dataset.f);
+  var iniAtual = hmParaMin($("#inicio").value), fimAtual = hmParaMin($("#fim").value);
+  var temDur = $("#inicio").value && $("#fim").value && fimAtual > iniAtual;
+  var dur = temDur ? (fimAtual - iniAtual) : 60;
+  var start = (temDur && iniAtual >= s && iniAtual + dur <= f) ? iniAtual : s;
+  var end = (start + dur <= f) ? start + dur : f;
+  $("#inicio").value = minParaHm(start);
+  $("#fim").value = minParaHm(end);
+  updateMiniResumo();
+  esconderConflito();
+  b.closest(".dispo-bar").animate(
+    [{ filter: "brightness(1.6)" }, { filter: "brightness(1)" }],
+    { duration: 350, easing: "ease-out" }
+  );
+});
 
 /* ---------- Confirmação ---------- */
 function gerarConfetti(){
@@ -1059,9 +1388,8 @@ $("#formReserva").addEventListener("submit", function(e){
   e.preventDefault();
   if(!validateStep(3)) return;
 
-  var agora = new Date();
-  var reserva = {
-    id: uid(),
+  var btnSubmit = $("#formReserva button[type=submit]");
+  var dados = {
     nome: $("#nome").value.trim(),
     telefone: $("#telefone").value.trim(),
     email: $("#email").value.trim(),
@@ -1069,20 +1397,49 @@ $("#formReserva").addEventListener("submit", function(e){
     inicio: $("#inicio").value,
     fim: $("#fim").value,
     espaco: $("#espaco").value,
-    equipamentos: getEquipamentosSelecionados(),
-    criadoEm: agora.toISOString()
+    equipamentos: getEquipamentosSelecionados()
   };
 
-  var reservas = load(KEY_RESERVAS);
-  reservas.push(reserva);
-  save(KEY_RESERVAS, reservas);
+  function concluir(reserva){
+    delete dispoCache[reserva.data];
+    esconderConflito();
+    preencherConfirmacao(reserva);
+    showScreen("tela-confirmacao");
+    $("#tela-confirmacao").focus();
+    gerarConfetti();
+    resetFormulario();
+    renderReservas();
+  }
 
-  preencherConfirmacao(reserva);
-  showScreen("tela-confirmacao");
-  $("#tela-confirmacao").focus();
-  gerarConfetti();
-  resetFormulario();
-  renderReservas();
+  // Sem nuvem configurada: comportamento antigo (só neste aparelho)
+  if(!API_URL){
+    var local = { id: uid(), criadoEm: new Date().toISOString() };
+    for(var k in dados){ if(dados.hasOwnProperty(k)) local[k] = dados[k]; }
+    salvarLocal(local);
+    showToast("Modo local: esta reserva ficará só neste aparelho.");
+    concluir(local);
+    return;
+  }
+
+  btnSubmit.disabled = true;
+  apiCall({ action: "criar_reserva", nome: dados.nome, telefone: dados.telefone, email: dados.email,
+            data: dados.data, inicio: dados.inicio, fim: dados.fim, espaco: dados.espaco,
+            equipamentos: dados.equipamentos })
+    .then(function(res){
+      if(!res.ok){
+        if(res.conflito){ mostrarConflito(res.erro || "Horário em conflito com outra reserva."); }
+        else{ showToast(res.erro || "Não foi possível concluir a reserva."); }
+        return;
+      }
+      var reserva = { id: res.id, criadoEm: res.criadoEm || new Date().toISOString() };
+      for(var k2 in dados){ if(dados.hasOwnProperty(k2)) reserva[k2] = dados[k2]; }
+      salvarLocal(reserva);
+      concluir(reserva);
+    })
+    .catch(function(){
+      showToast("Sem conexão com o servidor. Verifique a internet e tente novamente.");
+    })
+    .then(function(){ btnSubmit.disabled = false; });
 });
 
 function resetFormulario(){
@@ -1180,11 +1537,33 @@ document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !moda
 
 $("#btnConfirmarCancel").addEventListener("click", function(){
   if(!pendingCancelId) return;
-  var reservas = load(KEY_RESERVAS).filter(function(r){ return r.id !== pendingCancelId; });
-  save(KEY_RESERVAS, reservas);
-  fecharModal();
-  renderReservas();
-  showToast("Agendamento cancelado com sucesso.");
+  var idCancel = pendingCancelId;
+  var btnCancel = this;
+  btnCancel.disabled = true;
+
+  function removerLocal(){
+    var reservas = load(KEY_RESERVAS).filter(function(r){ return r.id !== idCancel; });
+    save(KEY_RESERVAS, reservas);
+    fecharModal();
+    renderReservas();
+    showToast("Agendamento cancelado com sucesso.");
+  }
+
+  if(!API_URL){
+    removerLocal();
+    btnCancel.disabled = false;
+    return;
+  }
+
+  apiCall({ action: "cancelar_reserva", id: idCancel })
+    .then(function(res){
+      if(!res.ok){ showToast(res.erro || "Não foi possível cancelar."); return; }
+      removerLocal();
+    })
+    .catch(function(){
+      showToast("Sem conexão com o servidor. Tente novamente.");
+    })
+    .then(function(){ btnCancel.disabled = false; });
 });
 
 /* ---------- Avaliação ---------- */
@@ -1222,24 +1601,48 @@ $("#formAvaliacao").addEventListener("submit", function(e){
 
   if(!ok) return;
 
-  var avaliacoes = load(KEY_AVALIACOES);
-  avaliacoes.push({
-    id: uid(),
+  var btnAval = $("#formAvaliacao button[type=submit]");
+  var dadosAval = {
     nome: nome,
     cargo: $("#av-cargo").value.trim(),
     nota: nota || null,
-    comentario: comentario,
-    criadoEm: new Date().toISOString()
-  });
-  save(KEY_AVALIACOES, avaliacoes);
+    comentario: comentario
+  };
 
-  $("#formAvaliacao").hidden = true;
-  var succ = $("#feedbackSuccess");
-  succ.hidden = false;
-  $("#feedbackSuccessMsg").textContent = nota
-    ? "Você nos deu " + nota + (nota > 1 ? " estrelas" : " estrela") + ". Obrigado!"
-    : "Sua avaliação foi registrada com sucesso.";
-  succ.scrollIntoView({ behavior: "smooth", block: "center" });
+  function sucessoAval(msg){
+    $("#formAvaliacao").hidden = true;
+    var succ = $("#feedbackSuccess");
+    succ.hidden = false;
+    $("#feedbackSuccessMsg").textContent = msg;
+    succ.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  // Sem nuvem configurada: comportamento antigo (só neste aparelho)
+  if(!API_URL){
+    var avaliacoes = load(KEY_AVALIACOES);
+    var registro = { id: uid(), criadoEm: new Date().toISOString() };
+    for(var k in dadosAval){ if(dadosAval.hasOwnProperty(k)) registro[k] = dadosAval[k]; }
+    avaliacoes.push(registro);
+    save(KEY_AVALIACOES, avaliacoes);
+    sucessoAval(nota
+      ? "Você nos deu " + nota + (nota > 1 ? " estrelas" : " estrela") + ". Obrigado!"
+      : "Sua avaliação foi registrada com sucesso.");
+    return;
+  }
+
+  btnAval.disabled = true;
+  apiCall({ action: "criar_avaliacao", nome: dadosAval.nome, cargo: dadosAval.cargo,
+            nota: dadosAval.nota, comentario: dadosAval.comentario })
+    .then(function(res){
+      if(!res.ok){ showToast(res.erro || "Não foi possível enviar a avaliação."); return; }
+      sucessoAval(nota
+        ? "Você nos deu " + nota + (nota > 1 ? " estrelas" : " estrela") + ". Obrigado!"
+        : "Sua avaliação foi registrada com sucesso.");
+    })
+    .catch(function(){
+      showToast("Sem conexão com o servidor. Verifique a internet e tente novamente.");
+    })
+    .then(function(){ btnAval.disabled = false; });
 });
 
 $("#btnNovaAvaliacao").addEventListener("click", function(){
@@ -1252,6 +1655,106 @@ $("#btnNovaAvaliacao").addEventListener("click", function(){
   $("#av-nome").focus();
 });
 
+/* ---------- Área do Responsável ---------- */
+function estrelasTexto(n){
+  if(!n) return "—";
+  var s = "";
+  for(var i = 1; i <= 5; i++){ s += i <= n ? "★" : "☆"; }
+  return s;
+}
+
+function renderAdmin(dados){
+  $("#ad-total").textContent = dados.totais.reservas;
+  $("#ad-confirmadas").textContent = dados.totais.confirmadas;
+  $("#ad-avaliacoes").textContent = dados.totais.avaliacoes;
+  $("#ad-media").textContent = dados.totais.media != null ? dados.totais.media : "—";
+
+  var boxR = $("#adminReservas");
+  if(!dados.reservas.length){
+    boxR.innerHTML = '<p class="screen-sub">Nenhuma reserva registrada ainda.</p>';
+  }else{
+    boxR.innerHTML = dados.reservas.map(function(r){
+      var equip = r.equipamentos && r.equipamentos.length
+        ? r.equipamentos.join(", ") : "Nenhum";
+      var badge = r.status === "Cancelada"
+        ? '<span class="badge done">Cancelada</span>'
+        : '<span class="badge">Confirmada</span>';
+      return '<div class="admin-item">' +
+        '<div class="admin-item-top"><b>' + esc(fmtDataBR(r.data)) + ' · ' + esc(r.inicio) + '–' + esc(r.fim) + '</b>' + badge + '</div>' +
+        '<div><strong>' + esc(r.espaco) + '</strong> — ' + esc(equip) + '</div>' +
+        '<div class="meta">' + esc(r.nome) + ' · ' + esc(r.telefone) + ' · ' + esc(r.email) + '</div>' +
+      '</div>';
+    }).join("");
+  }
+
+  var boxA = $("#adminAvaliacoes");
+  if(!dados.avaliacoes.length){
+    boxA.innerHTML = '<p class="screen-sub">Nenhuma avaliação recebida ainda.</p>';
+  }else{
+    boxA.innerHTML = dados.avaliacoes.map(function(a){
+      return '<div class="admin-item">' +
+        '<div class="admin-item-top"><b>' + esc(a.nome) + (a.cargo ? ' · ' + esc(a.cargo) : '') + '</b>' +
+        '<span class="admin-stars">' + estrelasTexto(a.nota) + '</span></div>' +
+        '<div class="coment">' + esc(a.comentario) + '</div>' +
+        '<div class="meta">Enviada em ' + esc(fmtMomento(new Date(a.criadoEm))) + '</div>' +
+      '</div>';
+    }).join("");
+  }
+}
+
+function carregarAdmin(){
+  var senha = sessionStorage.getItem("augustus_admin_senha");
+  if(!senha) return; // ainda não logou: mostra o formulário de senha
+  if(!API_URL){
+    $("#adminGate").hidden = false;
+    $("#adminPainel").hidden = true;
+    setError("field-admin-senha", "Configure a API_URL no config.js para usar a área do responsável.");
+    return;
+  }
+  $("#adminGate").hidden = true;
+  $("#adminPainel").hidden = false;
+  $("#adminReservas").innerHTML = '<p class="screen-sub">Carregando...</p>';
+  $("#adminAvaliacoes").innerHTML = "";
+  apiCall({ action: "admin_listar", senha: senha })
+    .then(function(res){
+      if(!res.ok){
+        if(res.erro && res.erro.indexOf("Senha") !== -1){
+          sessionStorage.removeItem("augustus_admin_senha");
+          $("#adminPainel").hidden = true;
+          $("#adminGate").hidden = false;
+        }
+        showToast(res.erro || "Erro ao carregar dados.");
+        return;
+      }
+      renderAdmin(res);
+    })
+    .catch(function(){
+      $("#adminPainel").hidden = true;
+      $("#adminGate").hidden = false;
+      showToast("Sem conexão com o servidor. Tente novamente.");
+    });
+}
+
+$("#formAdmin").addEventListener("submit", function(e){
+  e.preventDefault();
+  var senha = $("#admin-senha").value;
+  if(!senha){ setError("field-admin-senha", "Digite a senha."); return; }
+  if(!API_URL){ setError("field-admin-senha", "Configure a API_URL no config.js primeiro."); return; }
+  setError("field-admin-senha", null);
+  sessionStorage.setItem("augustus_admin_senha", senha);
+  carregarAdmin();
+});
+
+$("#btnAdminSair").addEventListener("click", function(){
+  sessionStorage.removeItem("augustus_admin_senha");
+  $("#admin-senha").value = "";
+  $("#adminPainel").hidden = true;
+  $("#adminGate").hidden = false;
+  showScreen("tela-inicio");
+});
+
+$("#btnAdminAtualizar").addEventListener("click", carregarAdmin);
+
 /* ---------- Service Worker (offline) ---------- */
 if("serviceWorker" in navigator){
   window.addEventListener("load", function(){
@@ -1263,6 +1766,7 @@ if("serviceWorker" in navigator){
 paintStars(0);
 renderReservas();
 goToStep(1, true);
+document.body.classList.add("home-mode");
 })();
 </script>
 </body>
