@@ -4,5 +4,5 @@
 // API_URL: "https://script.google.com/macros/s/AKfy.../exec"
 // Enquanto estiver vazia, o app funciona apenas localmente (sem nuvem).
 window.APP_CONFIG = {
-  API_URL: "https://script.google.com/macros/s/AKfycbyje4dp6MG8GjtBoOjYfgy2sViWRGPNtq-i2wm44H8QSmmOeJB6WS-u7malmON-mQmL/exec"
+  API_URL: "https://script.google.com/macros/s/AKfycbzVkIIK173psn9mK75C801L_q3PZ_h3M9iy2aiMQFROS-hfvkvM98AoTBGdZO9jmoyj/exec"
 };

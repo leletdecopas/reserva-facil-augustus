@@ -27,6 +27,7 @@ function doPost(e) {
     if (body.action === "criar_avaliacao") return criarAvaliacao(body);
     if (body.action === "consultar_dia") return consultarDia(body);
     if (body.action === "admin_listar") return adminListar(body);
+    if (body.action === "admin_cancelar") return adminCancelar(body);
     return jsonResposta({ ok: false, erro: "Ação desconhecida." });
   } catch (err) {
     return jsonResposta({ ok: false, erro: "Erro no servidor: " + err });
@@ -143,6 +144,73 @@ function verificarSenha(senha) {
   return String(senha || "") === esperado;
 }
 
+/* ---------------- estoque (quantidades) ---------------- */
+
+var ABA_ESTOQUE = "Estoque";
+var ESTOQUE_PADRAO = [
+  ["Data Show", 3],
+  ["Notebook", 3],
+  ["Caixa de som Bluetooth", 1],
+  ["Extensão", 1],
+  ["Cabo HDMI", 1],
+  ["Carregador da caixa de som", 1]
+];
+
+/**
+ * Lê a aba "Estoque" (Item | Quantidade). Cria semeada na 1ª chamada.
+ * Item ausente da aba é tratado como 1 (conservador).
+ */
+function getEstoque() {
+  var ss = getPlanilha();
+  var aba = ss.getSheetByName(ABA_ESTOQUE);
+  if (!aba) aba = ss.insertSheet(ABA_ESTOQUE);
+  if (aba.getLastRow() === 0) {
+    aba.appendRow(["Item", "Quantidade"]);
+    ESTOQUE_PADRAO.forEach(function (l) { aba.appendRow(l); });
+    aba.getRange(1, 1, 1, 2).setFontWeight("bold");
+    aba.setColumnWidth(1, 220);
+  }
+  var estoque = {};
+  var dados = aba.getDataRange().getValues();
+  for (var i = 1; i < dados.length; i++) {
+    var nome = celString(dados[i][0]).trim();
+    if (!nome) continue;
+    var q = Number(dados[i][1]);
+    estoque[nome] = isNaN(q) ? 1 : q;
+  }
+  return estoque;
+}
+
+function qtdEstoque(estoque, item) {
+  if (estoque.hasOwnProperty(item)) return estoque[item];
+  return 1;
+}
+
+/**
+ * Varredura: dados os intervalos de uso [[ini,fim],...], devolve os
+ * sub-intervalos em que há Q ou mais usos simultâneos (lotado).
+ */
+function intervalosCheios(intervalos, q) {
+  var evs = [];
+  intervalos.forEach(function (iv) {
+    evs.push([iv[0], 1]);
+    evs.push([iv[1], -1]);
+  });
+  // no mesmo instante, fim (-1) antes de início (+1)
+  evs.sort(function (a, b) { return a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]; });
+  var count = 0, start = null, out = [];
+  for (var i = 0; i < evs.length; i++) {
+    var anterior = count;
+    count += evs[i][1];
+    if (anterior < q && count >= q) start = evs[i][0];
+    else if (anterior >= q && count < q && start !== null) {
+      out.push([start, evs[i][0]]);
+      start = null;
+    }
+  }
+  return out;
+}
+
 /* ---------------- reservas ---------------- */
 
 function criarReserva(body) {
@@ -168,8 +236,10 @@ function criarReserva(body) {
   var semEspaco = espaco.indexOf("Nenhum") === 0; // "Nenhum (Apenas equipamento)" não conflita
 
   var conflEspaco = null;
-  var conflEquip = null;
-  var busy = [];
+  var busyEspaco = [];
+  var ivsItem = {};    // item -> [[ini,fim], ...] das reservas ativas do dia
+  var conflResItem = {}; // item -> reserva que sobrepõe o pedido
+  equipamentos.forEach(function (it) { ivsItem[it] = []; });
 
   for (var i = 0; i < linhas.length; i++) {
     var r = linhas[i].obj;
@@ -177,36 +247,73 @@ function criarReserva(body) {
     if (String(r.Data) !== data) continue;
 
     var rIni = paraMinutos(r.Inicio), rFim = paraMinutos(r.Fim);
-    var mesmaSala = !semEspaco && String(r.Espaco) === espaco;
-    var equipReservados = String(r.Equipamentos || "").split(", ");
+    var sobrepoeAqui = sobrepoe(String(r.Inicio), String(r.Fim), inicio, fim);
 
-    var eqCruzado = null;
-    for (var k = 0; k < equipamentos.length; k++) {
-      if (equipReservados.indexOf(equipamentos[k]) !== -1) { eqCruzado = equipamentos[k]; break; }
+    var mesmaSala = !semEspaco && String(r.Espaco) === espaco;
+    if (mesmaSala) {
+      busyEspaco.push([rIni, rFim]);
+      if (sobrepoeAqui && !conflEspaco) conflEspaco = r;
     }
 
-    // Intervalos que bloqueiam este pedido (mesmo os que não conflitam agora)
-    if (mesmaSala) busy.push([rIni, rFim]);
-    if (eqCruzado) busy.push([rIni, rFim]);
-
-    var sobrepoeAqui = sobrepoe(String(r.Inicio), String(r.Fim), inicio, fim);
-    if (sobrepoeAqui && mesmaSala && !conflEspaco) conflEspaco = r;
-    if (sobrepoeAqui && eqCruzado && !conflEquip) conflEquip = { res: r, nome: eqCruzado };
+    var equipReservados = String(r.Equipamentos || "").split(", ");
+    for (var k = 0; k < equipamentos.length; k++) {
+      if (equipReservados.indexOf(equipamentos[k]) !== -1) {
+        ivsItem[equipamentos[k]].push([rIni, rFim]);
+        if (sobrepoeAqui && !conflResItem[equipamentos[k]]) conflResItem[equipamentos[k]] = r;
+      }
+    }
   }
 
+  // Conflito de espaço (sempre 1 por sala)
   if (conflEspaco) {
     return conflitoResposta(
       "Já existe uma reserva das " + conflEspaco.Inicio + " às " + conflEspaco.Fim +
       " em " + espaco + " feita por outro usuário.",
-      janelaLivre(busy, paraMinutos(inicio), durMin)
+      janelaLivre(busyEspaco, paraMinutos(inicio), durMin)
     );
   }
-  if (conflEquip) {
-    return conflitoResposta(
-      "Já existe uma reserva das " + conflEquip.res.Inicio + " às " + conflEquip.res.Fim +
-      " do equipamento \"" + conflEquip.nome + "\" feita por outro usuário.",
-      janelaLivre(busy, paraMinutos(inicio), durMin)
-    );
+
+  // Conflito de equipamentos por QUANTIDADE em estoque
+  if (equipamentos.length) {
+    var estoque = getEstoque();
+    for (var k2 = 0; k2 < equipamentos.length; k2++) {
+      var item = equipamentos[k2];
+      var q = qtdEstoque(estoque, item);
+
+      if (q <= 0) {
+        return jsonResposta({
+          ok: false, conflito: true,
+          erro: "O item \"" + item + "\" está indisponível no momento (estoque 0). Retire-o da seleção."
+        });
+      }
+
+      var cheios = intervalosCheios(ivsItem[item], q);
+      var faixa = null;
+      for (var f = 0; f < cheios.length; f++) {
+        if (sobrepoe(paraHora(cheios[f][0]), paraHora(cheios[f][1]), inicio, fim)) { faixa = cheios[f]; break; }
+      }
+      if (!faixa) continue; // item com folga no horário pedido
+
+      if (q === 1) {
+        var rMsg = conflResItem[item];
+        return conflitoResposta(
+          "Já existe uma reserva das " +
+          (rMsg ? rMsg.Inicio + " às " + rMsg.Fim : paraHora(faixa[0]) + " às " + paraHora(faixa[1])) +
+          " do item \"" + item + "\" feita por outro usuário.",
+          janelaLivre(cheios, paraMinutos(inicio), durMin)
+        );
+      }
+
+      var n = 0;
+      ivsItem[item].forEach(function (iv) {
+        if (sobrepoe(paraHora(iv[0]), paraHora(iv[1]), inicio, fim)) n++;
+      });
+      return conflitoResposta(
+        "Não há mais " + item + " livre neste horário (" + Math.min(n, q) + " de " + q +
+        " já reservados, das " + paraHora(faixa[0]) + " às " + paraHora(faixa[1]) + ").",
+        janelaLivre(cheios, paraMinutos(inicio), durMin)
+      );
+    }
   }
 
   var id = uid();
@@ -259,7 +366,7 @@ function consultarDia(body) {
       equipamentos: equip ? equip.split(", ") : []
     });
   }
-  return jsonResposta({ ok: true, data: data, reservas: reservas });
+  return jsonResposta({ ok: true, data: data, reservas: reservas, estoque: getEstoque() });
 }
 
 /* ---------------- avaliações ---------------- */
@@ -282,6 +389,37 @@ function criarAvaliacao(body) {
 }
 
 /* ---------------- área do responsável ---------------- */
+
+/**
+ * Cancela uma reserva validando a senha do responsável.
+ * Libera o horário e o estoque dos itens na hora.
+ */
+function adminCancelar(body) {
+  if (!PropertiesService.getScriptProperties().getProperty("ADMIN_SENHA")) {
+    return jsonResposta({ ok: false, erro: "Defina a propriedade ADMIN_SENHA nas configurações do script." });
+  }
+  if (!verificarSenha(body.senha)) {
+    return jsonResposta({ ok: false, erro: "Senha incorreta." });
+  }
+  var id = String(body.id || "").trim();
+  if (!id) return jsonResposta({ ok: false, erro: "ID da reserva ausente." });
+
+  var aba = getAba(ABA_RESERVAS, CABECALHO_RESERVAS);
+  var linhas = lerLinhas(aba);
+  for (var i = 0; i < linhas.length; i++) {
+    if (String(linhas[i].obj.ID) === id) {
+      if (String(linhas[i].obj.Status) === "Cancelada") {
+        return jsonResposta({ ok: true, jaCancelada: true });
+      }
+      var colStatus = CABECALHO_RESERVAS.indexOf("Status") + 1;
+      var colCancel = CABECALHO_RESERVAS.indexOf("Cancelado em") + 1;
+      aba.getRange(linhas[i].linha, colStatus).setValue("Cancelada");
+      aba.getRange(linhas[i].linha, colCancel).setValue(new Date().toISOString());
+      return jsonResposta({ ok: true });
+    }
+  }
+  return jsonResposta({ ok: true, naoEncontrada: true });
+}
 
 function adminListar(body) {
   if (!PropertiesService.getScriptProperties().getProperty("ADMIN_SENHA")) {

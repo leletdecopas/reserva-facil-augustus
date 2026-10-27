@@ -167,6 +167,7 @@ body.home-mode{padding-bottom:28px}
 .admin-item-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:6px}
 .admin-item b{font-weight:800}
 .admin-item .meta{color:var(--texto-sec);font-size:.78rem;margin-top:4px;overflow-wrap:anywhere}
+.admin-item .admin-cancel{margin-top:10px}
 .admin-item .coment{margin-top:8px;padding-top:8px;border-top:1px dashed var(--borda);color:var(--cinza-escuro)}
 .admin-stars{color:var(--dourado-2);font-weight:800;letter-spacing:1px}
 .admin-section-title{
@@ -299,6 +300,12 @@ body.home-mode{padding-bottom:28px}
   font-size:.66rem;font-weight:800;color:#fff;white-space:nowrap;
   border-top:2px solid var(--preto);
 }
+.dispo-block.partial{
+  background:repeating-linear-gradient(135deg,#C9A227 0 7px,#DDB82E 7px 14px);
+  color:var(--preto);border-top:2px solid var(--dourado-2);cursor:pointer;
+  z-index:1;
+}
+.dispo-block.partial:hover,.dispo-block.partial:active{filter:brightness(1.12)}
 .dispo-free{
   position:absolute;top:0;bottom:0;background:none;border:none;padding:0;
   cursor:pointer;z-index:1;
@@ -316,11 +323,18 @@ body.home-mode{padding-bottom:28px}
 .dispo-legend span{display:inline-flex;align-items:center;gap:6px}
 .dispo-key{width:14px;height:10px;border-radius:3px;display:inline-block}
 .dispo-key.busy{background:repeating-linear-gradient(135deg,#595959 0 4px,#6B6B6B 4px 8px)}
+.dispo-key.partial{background:repeating-linear-gradient(135deg,#C9A227 0 4px,#DDB82E 4px 8px)}
 .dispo-key.free{background:#FFF2B8;border:1px solid var(--dourado-soft)}
 .dispo-empty{font-size:.8rem;color:var(--texto-sec);font-style:italic;padding:4px 0 2px}
 
-/* ---------- Caixa de conflito ---------- */
-.conflict-box{
+/* ---------- Crédito no rodapé ---------- */
+.app-credit{
+  text-align:center;padding:26px 16px 14px;
+  font-size:.78rem;font-weight:600;color:var(--texto-sec);
+}
+.app-credit strong{color:var(--cinza-escuro);font-weight:800}
+
+/* ---------- Caixa de conflito ---------- */.conflict-box{
   display:flex;gap:12px;align-items:flex-start;text-align:left;
   background:var(--erro-soft);border:1.5px solid rgba(179,38,30,.3);
   border-radius:var(--radius-sm);padding:15px 16px;margin-top:18px;
@@ -693,13 +707,15 @@ textarea.input:focus{outline:none;border-color:var(--dourado-2);box-shadow:0 0 0
               <div class="input-wrap no-icon">
                 <select id="espaco" name="espaco" required>
                   <option value="" disabled selected>Selecione o espaço...</option>
-                  <option>Sala de Aula 01</option>
-                  <option>Sala de Aula 02</option>
-                  <option>Sala de Aula 03</option>
-                  <option>Laboratório de Informática</option>
-                  <option>Sala de Vídeo</option>
-                  <option>Laboratório de Ciências</option>
-                  <option>Biblioteca</option>
+                  <option>6º Ano A</option>
+                  <option>6º Ano C</option>
+                  <option>7º Ano A</option>
+                  <option>7º Ano C</option>
+                  <option>8º Ano</option>
+                  <option>9º Ano</option>
+                  <option>1ª Série</option>
+                  <option>2ª Série</option>
+                  <option>3ª Série</option>
                   <option>Nenhum (Apenas equipamento)</option>
                 </select>
               </div>
@@ -707,15 +723,14 @@ textarea.input:focus{outline:none;border-color:var(--dourado-2);box-shadow:0 0 0
             </div>
             <div class="field">
               <label id="label-equip">Equipamentos e Ferramentas</label>
-              <div class="chips" role="group" aria-labelledby="label-equip" id="chipsEquip">
-                <label class="chip"><input type="checkbox" name="equip" value="Retroprojetor"><span>Retroprojetor</span></label>
-                <label class="chip"><input type="checkbox" name="equip" value="Laser de lousa/passador de slides"><span>Laser de lousa</span></label>
-                <label class="chip"><input type="checkbox" name="equip" value="Notebook"><span>Notebook</span></label>
-                <label class="chip"><input type="checkbox" name="equip" value="Tablet"><span>Tablet</span></label>
-                <label class="chip"><input type="checkbox" name="equip" value="Televisão Smart TV"><span>Smart TV</span></label>
-                <label class="chip"><input type="checkbox" name="equip" value="Aparelho de som"><span>Aparelho de som</span></label>
-                <label class="chip"><input type="checkbox" name="equip" value="Microfone"><span>Microfone</span></label>
-              </div>
+                <div class="chips" role="group" aria-labelledby="label-equip" id="chipsEquip">
+                  <label class="chip"><input type="checkbox" name="equip" value="Data Show"><span>Data Show</span></label>
+                  <label class="chip"><input type="checkbox" name="equip" value="Notebook"><span>Notebook</span></label>
+                  <label class="chip"><input type="checkbox" name="equip" value="Caixa de som Bluetooth"><span>Caixa de som Bluetooth</span></label>
+                  <label class="chip"><input type="checkbox" name="equip" value="Extensão"><span>Extensão</span></label>
+                  <label class="chip"><input type="checkbox" name="equip" value="Cabo HDMI"><span>Cabo HDMI</span></label>
+                  <label class="chip"><input type="checkbox" name="equip" value="Carregador da caixa de som"><span>Carregador da caixa de som</span></label>
+                </div>
               <p class="hint">Selecione quantos precisar — pode escolher mais de um.</p>
             </div>
           </div>
@@ -730,6 +745,7 @@ textarea.input:focus{outline:none;border-color:var(--dourado-2);box-shadow:0 0 0
             <div class="dispo-scale" id="dispoScale"></div>
             <div class="dispo-legend">
               <span><i class="dispo-key busy"></i> Ocupado</span>
+              <span><i class="dispo-key partial"></i> Parcial (ex.: 1/3)</span>
               <span><i class="dispo-key free"></i> Livre (toque para preencher)</span>
             </div>
           </div>
@@ -928,6 +944,10 @@ textarea.input:focus{outline:none;border-color:var(--dourado-2);box-shadow:0 0 0
   </section>
 </main>
 
+<footer class="app-credit">
+  Desenvolvido Por: <strong>Letícia Silva</strong>
+</footer>
+
 <!-- Modal de cancelamento -->
 <div class="modal-overlay" id="modalCancelar" hidden>
   <div class="modal" role="alertdialog" aria-labelledby="modalTitulo" aria-describedby="modalDesc">
@@ -955,7 +975,7 @@ textarea.input:focus{outline:none;border-color:var(--dourado-2);box-shadow:0 0 0
 
 var KEY_RESERVAS = "augustus_reservas";
 var KEY_AVALIACOES = "augustus_avaliacoes";
-var SPACES = ["Sala de Aula 01","Sala de Aula 02","Sala de Aula 03","Laboratório de Informática","Sala de Vídeo","Laboratório de Ciências","Biblioteca","Nenhum (Apenas equipamento)"];
+var SPACES = ["6º Ano A","6º Ano C","7º Ano A","7º Ano C","8º Ano","9º Ano","1ª Série","2ª Série","3ª Série","Nenhum (Apenas equipamento)"];
 
 var $ = function(sel, ctx){ return (ctx||document).querySelector(sel); };
 var $$ = function(sel, ctx){ return Array.prototype.slice.call((ctx||document).querySelectorAll(sel)); };
@@ -1206,7 +1226,7 @@ $("#formReserva").addEventListener("change", function(){
 var DISPO_INI = 7 * 60;   // 07:00
 var DISPO_FIM = 22 * 60;  // 22:00
 var DISPO_SPAN = DISPO_FIM - DISPO_INI;
-var dispoCache = {}; // data -> [{inicio,fim,espaco,equipamentos}]
+var dispoCache = {}; // data -> {reservas:[{inicio,fim,espaco,equipamentos}], estoque:{item:qtd}}
 
 function hmParaMin(hhmm){
   var p = String(hhmm || "").split(":");
@@ -1225,14 +1245,16 @@ function mostrarConflito(msg){
   $("#conflictBox").scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-function recursosSelecionados(){
+function recursosSelecionados(estoque){
   var recs = [];
   var espaco = $("#espaco").value;
   if(espaco && espaco.indexOf("Nenhum") !== 0){
-    recs.push({ tipo: "espaco", nome: espaco, rotulo: espaco });
+    recs.push({ tipo: "espaco", nome: espaco, rotulo: espaco, qtd: 1 });
   }
   getEquipamentosSelecionados().forEach(function(e){
-    recs.push({ tipo: "equip", nome: e, rotulo: e });
+    var q = (estoque && estoque.hasOwnProperty(e)) ? Number(estoque[e]) : 1;
+    if(isNaN(q) || q < 1) q = 1;
+    recs.push({ tipo: "equip", nome: e, rotulo: e + " (" + q + ")", qtd: q });
   });
   return recs;
 }
@@ -1241,19 +1263,42 @@ function intervalosDoRecurso(rec, reservas){
   var out = [];
   reservas.forEach(function(r){
     if(rec.tipo === "espaco" && r.espaco === rec.nome){
-      out.push([hmParaMin(r.inicio), hmParaMin(r.fim), r.inicio + "–" + r.fim]);
+      out.push([hmParaMin(r.inicio), hmParaMin(r.fim)]);
     }else if(rec.tipo === "equip" && (r.equipamentos || []).indexOf(rec.nome) !== -1){
-      out.push([hmParaMin(r.inicio), hmParaMin(r.fim), r.inicio + "–" + r.fim]);
+      out.push([hmParaMin(r.inicio), hmParaMin(r.fim)]);
     }
   });
   return out;
 }
 
-function desenharDispo(data, reservas){
+/* Segmenta 07h–22h por contagem de uso simultâneo (0 = livre, n<qtd = parcial, n>=qtd = lotado) */
+function segmentar(intervalos, qtd){
+  var pontos = [DISPO_INI, DISPO_FIM];
+  intervalos.forEach(function(iv){
+    var s = Math.max(DISPO_INI, iv[0]), f = Math.min(DISPO_FIM, iv[1]);
+    if(f > s){ pontos.push(s); pontos.push(f); }
+  });
+  pontos.sort(function(a, b){ return a - b; });
+  var segs = [];
+  for(var i = 0; i < pontos.length - 1; i++){
+    var a = pontos[i], b = pontos[i + 1];
+    if(b <= a) continue;
+    var meio = Math.floor((a + b) / 2), n = 0;
+    intervalos.forEach(function(iv){ if(iv[0] <= meio && meio < iv[1]) n++; });
+    var ultimo = segs[segs.length - 1];
+    if(ultimo && ultimo.n === n) ultimo.f = b;
+    else segs.push({ s: a, f: b, n: n });
+  }
+  return segs;
+}
+
+function desenharDispo(data, pacote){
   $("#dispoBox").hidden = false;
   $("#dispoData").textContent = fmtDataBR(data);
 
-  var recs = recursosSelecionados();
+  var reservas = pacote.reservas || [];
+  var estoque = pacote.estoque || {};
+  var recs = recursosSelecionados(estoque);
   var rows = $("#dispoRows");
   if(!recs.length){
     rows.innerHTML = '<p class="dispo-empty">Selecione o espaço (ou equipamentos) para ver as janelas.</p>';
@@ -1264,28 +1309,28 @@ function desenharDispo(data, reservas){
   var html = "";
   recs.forEach(function(rec){
     var intervalos = intervalosDoRecurso(rec, reservas);
-    // blocos + intervalos livres
-    var blocos = "", livres = "";
-    var cursor = DISPO_INI;
-    intervalos.sort(function(a, b){ return a[0] - b[0]; }).forEach(function(iv){
-      var s = Math.max(DISPO_INI, iv[0]), f = Math.min(DISPO_FIM, iv[1]);
-      if(f <= DISPO_INI || s >= DISPO_FIM || f <= s) return;
-      if(s > cursor){
-        livres += '<button type="button" class="dispo-free" data-s="' + cursor + '" data-f="' + s +
-          '" aria-label="Usar horário ' + minParaHm(cursor) + ' às ' + minParaHm(s) + '" style="left:' + pct(cursor) + '%;width:' + (pct(s) - pct(cursor)) + '%"></button>';
+    var segs = segmentar(intervalos, rec.qtd);
+    var html2 = "";
+    segs.forEach(function(sg){
+      var left = pct(sg.s), width = pct(sg.f) - pct(sg.s);
+      if(sg.n === 0){
+        html2 += '<button type="button" class="dispo-free" data-s="' + sg.s + '" data-f="' + sg.f +
+          '" aria-label="Usar horário ' + minParaHm(sg.s) + ' às ' + minParaHm(sg.f) +
+          '" style="left:' + left + '%;width:' + width + '%"></button>';
+      }else if(sg.n < rec.qtd){
+        html2 += '<button type="button" class="dispo-free dispo-block partial" data-s="' + sg.s + '" data-f="' + sg.f +
+          '" aria-label="Parcial: ' + sg.n + ' de ' + rec.qtd + ' reservados entre ' + minParaHm(sg.s) + ' e ' + minParaHm(sg.f) + '. Tocar para usar." style="left:' + left + '%;width:' + width + '%">' +
+          sg.n + '/' + rec.qtd + '</button>';
+      }else{
+        var rotulo = rec.qtd > 1 ? sg.n + '/' + rec.qtd : minParaHm(sg.s) + '–' + minParaHm(sg.f);
+        html2 += '<div class="dispo-block" style="left:' + left + '%;width:' + width + '%">' + rotulo + '</div>';
       }
-      blocos += '<div class="dispo-block" style="left:' + pct(s) + '%;width:' + (pct(f) - pct(s)) + '%">' + esc(iv[2]) + '</div>';
-      if(f > cursor) cursor = f;
     });
-    if(cursor < DISPO_FIM){
-      livres += '<button type="button" class="dispo-free" data-s="' + cursor + '" data-f="' + DISPO_FIM +
-        '" aria-label="Usar horário ' + minParaHm(cursor) + ' às ' + minParaHm(DISPO_FIM) + '" style="left:' + pct(cursor) + '%;width:' + (pct(DISPO_FIM) - pct(cursor)) + '%"></button>';
-    }
 
     var vazio = intervalos.length ? "" : '<span class="dispo-empty" style="position:absolute;left:8px;top:9px;z-index:0">livre o dia todo</span>';
     html += '<div class="dispo-row">' +
       '<span class="dispo-label">' + esc(rec.rotulo) + '</span>' +
-      '<div class="dispo-bar">' + vazio + blocos + livres + '</div>' +
+      '<div class="dispo-bar">' + vazio + html2 + '</div>' +
     '</div>';
   });
   rows.innerHTML = html;
@@ -1322,7 +1367,7 @@ function carregarDispo(){
   apiCall({ action: "consultar_dia", data: data })
     .then(function(res){
       if(!res.ok) throw new Error(res.erro || "Falha ao consultar.");
-      dispoCache[data] = res.reservas || [];
+      dispoCache[data] = { reservas: res.reservas || [], estoque: res.estoque || {} };
       if(currentStep === 3 && $("#data").value === data) desenharDispo(data, dispoCache[data]);
     })
     .catch(function(){
@@ -1458,8 +1503,9 @@ $("#btnVerMeus").addEventListener("click", function(){
   showScreen("tela-meus");
 });
 
-/* ---------- Meus agendamentos ---------- */
+/* ---------- Meus agendamentos / cancelar ---------- */
 var pendingCancelId = null;
+var pendingCancelOrigem = "meus"; // "meus" | "admin"
 var modal = $("#modalCancelar");
 
 function isConcluida(res){
@@ -1522,6 +1568,7 @@ $("#listaReservas").addEventListener("click", function(e){
   var btn = e.target.closest(".btn-cancelar");
   if(!btn) return;
   pendingCancelId = btn.dataset.id;
+  pendingCancelOrigem = "meus";
   modal.hidden = false;
   $("#btnManter").focus();
 });
@@ -1529,6 +1576,7 @@ $("#listaReservas").addEventListener("click", function(e){
 function fecharModal(){
   modal.hidden = true;
   pendingCancelId = null;
+  pendingCancelOrigem = "meus";
 }
 
 $("#btnManter").addEventListener("click", fecharModal);
@@ -1538,6 +1586,7 @@ document.addEventListener("keydown", function(e){ if(e.key === "Escape" && !moda
 $("#btnConfirmarCancel").addEventListener("click", function(){
   if(!pendingCancelId) return;
   var idCancel = pendingCancelId;
+  var origem = pendingCancelOrigem;
   var btnCancel = this;
   btnCancel.disabled = true;
 
@@ -1547,6 +1596,25 @@ $("#btnConfirmarCancel").addEventListener("click", function(){
     fecharModal();
     renderReservas();
     showToast("Agendamento cancelado com sucesso.");
+  }
+
+  function aposAdmin(){
+    fecharModal();
+    showToast("Reserva cancelada com sucesso.");
+    carregarAdmin();
+  }
+
+  if(origem === "admin"){
+    apiCall({ action: "admin_cancelar", id: idCancel, senha: sessionStorage.getItem("augustus_admin_senha") })
+      .then(function(res){
+        if(!res.ok){ showToast(res.erro || "Não foi possível cancelar."); return; }
+        var reservas = load(KEY_RESERVAS).filter(function(r){ return r.id !== idCancel; });
+        save(KEY_RESERVAS, reservas);
+        aposAdmin();
+      })
+      .catch(function(){ showToast("Sem conexão com o servidor. Tente novamente."); })
+      .then(function(){ btnCancel.disabled = false; });
+    return;
   }
 
   if(!API_URL){
@@ -1683,6 +1751,8 @@ function renderAdmin(dados){
         '<div class="admin-item-top"><b>' + esc(fmtDataBR(r.data)) + ' · ' + esc(r.inicio) + '–' + esc(r.fim) + '</b>' + badge + '</div>' +
         '<div><strong>' + esc(r.espaco) + '</strong> — ' + esc(equip) + '</div>' +
         '<div class="meta">' + esc(r.nome) + ' · ' + esc(r.telefone) + ' · ' + esc(r.email) + '</div>' +
+        (r.status === "Cancelada" ? '' :
+          '<button type="button" class="btn btn-sm btn-danger admin-cancel" data-id="' + esc(r.id) + '">Cancelar reserva</button>') +
       '</div>';
     }).join("");
   }
@@ -1702,8 +1772,17 @@ function renderAdmin(dados){
   }
 }
 
-function carregarAdmin(){
-  var senha = sessionStorage.getItem("augustus_admin_senha");
+/* Cancelar reserva direto do painel (usa a senha guardada na sessão) */
+$("#adminReservas").addEventListener("click", function(e){
+  var btn = e.target.closest(".admin-cancel");
+  if(!btn) return;
+  pendingCancelId = btn.dataset.id;
+  pendingCancelOrigem = "admin";
+  modal.hidden = false;
+  $("#btnManter").focus();
+});
+
+function carregarAdmin(){  var senha = sessionStorage.getItem("augustus_admin_senha");
   if(!senha) return; // ainda não logou: mostra o formulário de senha
   if(!API_URL){
     $("#adminGate").hidden = false;
